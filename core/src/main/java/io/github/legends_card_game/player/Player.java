@@ -1,21 +1,26 @@
 package io.github.legends_card_game.player;
 
-public class Player {
-    private int[] botLaneCards;
-    private int[] midLaneCards;
-    private int[] topLaneCards;
+import io.github.legends_card_game.card.Card;
 
-    public Player() {
-        botLaneCards = new int[]{0, 0, 0, 0};
-        midLaneCards = new int[]{0, 0};
-        topLaneCards = new int[]{0, 0};
+public class Player {
+    private Card[] botLaneCards;
+    private Card[] midLaneCards;
+    private Card[] topLaneCards;
+
+    public Player(Card[] initBotLaneCards, Card initMidLaneCard, Card initTopLaneCard) {
+        botLaneCards = new Card[]{null, null, initBotLaneCards[0], initBotLaneCards[1]};
+        midLaneCards = new Card[]{null, initMidLaneCard};
+        topLaneCards = new Card[]{null, initTopLaneCard};
     }
 
-    public String getCards(int[] cardValues) {
+    public String getCards(Card[] cards) {
         StringBuilder cardsString = new StringBuilder();
 
-        for (int card : cardValues) {
-            cardsString.append(card).append(" ");
+        for (Card card : cards) {
+            if (!(card == null)) {
+                cardsString.append(card.getValue()).append(" ");
+            }
+
         }
 
         return cardsString.toString();
@@ -31,5 +36,30 @@ public class Player {
 
     public String getMidLaneCards() {
         return getCards(midLaneCards);
+    }
+
+    public int getLaneValue(Card[] cards) {
+        int value = 0;
+
+        for (Card card : cards) {
+            if (!(card == null)) {
+                value += card.getValue();
+            }
+
+        }
+
+        return value;
+    }
+
+    public int getBotLaneValue() {
+        return getLaneValue(botLaneCards);
+    }
+
+    public int getMidLaneValue() {
+        return getLaneValue(midLaneCards);
+    }
+
+    public int getTopLaneValue() {
+        return getLaneValue(topLaneCards);
     }
 }

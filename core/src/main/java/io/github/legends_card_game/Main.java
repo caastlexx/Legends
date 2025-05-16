@@ -1,17 +1,18 @@
 package io.github.legends_card_game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import io.github.legends_card_game.card.card_deck.CardDeck;
 import io.github.legends_card_game.player.Player;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
@@ -20,6 +21,8 @@ public class Main extends ApplicationAdapter {
     private OrthographicCamera camera;
 
     private Player player;
+    private Player bot;
+    private CardDeck deck;
 
     @Override
     public void create() {
@@ -31,7 +34,10 @@ public class Main extends ApplicationAdapter {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         viewport = new ExtendViewport(camera.viewportWidth, camera.viewportHeight, camera);
 
-        player = new Player();
+        deck = new CardDeck();
+
+        player = new Player(deck.drawCards(2), deck.drawCard(), deck.drawCard());
+        bot = new Player(deck.drawCards(2), deck.drawCard(), deck.drawCard());
     }
 
     @Override
@@ -42,9 +48,13 @@ public class Main extends ApplicationAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        bmFont.draw(batch, player.getTopLaneCards(), 200, 400);
-        bmFont.draw(batch, player.getMidLaneCards(), 400, 400);
-        bmFont.draw(batch, player.getBotLaneCards(), 600, 400);
+        bmFont.draw(batch, player.getTopLaneCards(), 200, 200);
+        bmFont.draw(batch, player.getMidLaneCards(), 400, 200);
+        bmFont.draw(batch, player.getBotLaneCards(), 600, 200);
+
+        bmFont.draw(batch, bot.getTopLaneCards(), 200, 600);
+        bmFont.draw(batch, bot.getMidLaneCards(), 400, 600);
+        bmFont.draw(batch, bot.getBotLaneCards(), 600, 600);
         batch.end();
     }
 
