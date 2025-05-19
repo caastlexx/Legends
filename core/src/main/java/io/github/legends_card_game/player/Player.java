@@ -2,18 +2,27 @@ package io.github.legends_card_game.player;
 
 import io.github.legends_card_game.card.Card;
 
-public class Player {
-    private Card[] botLaneCards;
-    private Card[] midLaneCards;
-    private Card[] topLaneCards;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
-    public Player(Card[] initBotLaneCards, Card initMidLaneCard, Card initTopLaneCard) {
+public class Player {
+    private final Card[] botLaneCards;
+    private final Card[] midLaneCards;
+    private final Card[] topLaneCards;
+
+    private final ArrayList<Card> jungleCards;
+
+    public Player(Card[] initBotLaneCards, Card initMidLaneCard, Card initTopLaneCard, Card initJungleCard) {
         botLaneCards = new Card[]{null, null, initBotLaneCards[0], initBotLaneCards[1]};
         midLaneCards = new Card[]{null, initMidLaneCard};
         topLaneCards = new Card[]{null, initTopLaneCard};
+
+        jungleCards = new ArrayList<>();
+        jungleCards.add(initJungleCard);
     }
 
-    public String getCards(Card[] cards) {
+    public String getCards(Collection<Card> cards) {
         StringBuilder cardsString = new StringBuilder();
 
         for (Card card : cards) {
@@ -24,6 +33,10 @@ public class Player {
         }
 
         return cardsString.toString();
+    }
+
+    public String getCards(Card[] cards) {
+        return getCards(Arrays.asList(cards));
     }
 
     public String getBotLaneCards() {
@@ -61,5 +74,9 @@ public class Player {
 
     public int getTopLaneValue() {
         return getLaneValue(topLaneCards);
+    }
+
+    public String getJungleCards() {
+        return getCards(jungleCards);
     }
 }

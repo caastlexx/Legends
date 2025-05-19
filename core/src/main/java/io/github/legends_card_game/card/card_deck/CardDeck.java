@@ -37,7 +37,6 @@ public class CardDeck {
         int cardIdx = (int) (Math.random() * deck.size());
         Card card = deck.get(cardIdx);
 
-        discard.add(card);
         deck.remove(cardIdx);
 
         // refresh deck with discard when empty
@@ -57,5 +56,9 @@ public class CardDeck {
         }
 
         return cards;
+    }
+
+    public void discard(Card card) {
+        discard.add(card);
     }
 }
