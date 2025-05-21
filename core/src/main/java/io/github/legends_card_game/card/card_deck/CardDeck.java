@@ -4,6 +4,7 @@ import io.github.legends_card_game.card.Card;
 import io.github.legends_card_game.card.suite.Suite;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardDeck {
     private final ArrayList<Card> deck;
@@ -37,7 +38,6 @@ public class CardDeck {
         int cardIdx = (int) (Math.random() * deck.size());
         Card card = deck.get(cardIdx);
 
-        discard.add(card);
         deck.remove(cardIdx);
 
         // refresh deck with discard when empty
@@ -57,5 +57,15 @@ public class CardDeck {
         }
 
         return cards;
+    }
+
+    public void discard(Card card) {
+        discard.add(card);
+    }
+
+    public void discard(Card[] cards) {
+        for (Card card : cards) {
+            discard(card);
+        }
     }
 }
