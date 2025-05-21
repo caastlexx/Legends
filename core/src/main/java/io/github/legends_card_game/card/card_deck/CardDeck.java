@@ -49,6 +49,10 @@ public class CardDeck {
         return card;
     }
 
+    public Card drawCardTo(int x, int y) {
+        return drawCard().setPosition(x, y);
+    }
+
     public Card[] drawCards(int count) {
         Card[] cards = new Card[count];
 

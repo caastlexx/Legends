@@ -56,8 +56,8 @@ public class Player {
         return getCards(topLaneCards);
     }
 
-    public String getMidLaneCards() {
-        return getCards(midLaneCards);
+    public Queue<Card> getMidLaneCards() {
+        return midLaneCards;
     }
 
     public ArrayList<Card> getJungleCards() {
