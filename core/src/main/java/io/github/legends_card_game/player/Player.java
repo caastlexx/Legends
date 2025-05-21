@@ -2,26 +2,35 @@ package io.github.legends_card_game.player;
 
 import io.github.legends_card_game.card.Card;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 public class Player {
-    private final Card[] botLaneCards;
-    private final Card[] midLaneCards;
-    private final Card[] topLaneCards;
+    // Lane card queues
+    private final Queue<Card> botLaneCards;
+    private final Queue<Card> midLaneCards;
+    private final Queue<Card> topLaneCards;
 
+    // Jungle Cards
     private final ArrayList<Card> jungleCards;
 
     public Player(Card[] initBotLaneCards, Card initMidLaneCard, Card initTopLaneCard, Card initJungleCard) {
-        botLaneCards = new Card[]{null, null, initBotLaneCards[0], initBotLaneCards[1]};
-        midLaneCards = new Card[]{null, initMidLaneCard};
-        topLaneCards = new Card[]{null, initTopLaneCard};
+        // initialize lane card queues and add initial cards
+        botLaneCards = new LinkedList<>();
+        botLaneCards.add(initBotLaneCards[0]);
+        botLaneCards.add(initBotLaneCards[1]);
 
+        midLaneCards = new LinkedList<>();
+        midLaneCards.add(initMidLaneCard);
+
+        topLaneCards = new LinkedList<>();
+        topLaneCards.add(initTopLaneCard);
+
+        // initialize jungle card arraylist and add initial jungle
         jungleCards = new ArrayList<>();
         jungleCards.add(initJungleCard);
     }
 
+    // return cards in the form of a formatted string
     public String getCards(Collection<Card> cards) {
         StringBuilder cardsString = new StringBuilder();
 
@@ -55,7 +64,7 @@ public class Player {
         return jungleCards;
     }
 
-    public int getLaneValue(Card[] cards) {
+    public int getLaneValue(Collection<Card> cards) {
         int value = 0;
 
         for (Card card : cards) {
@@ -81,45 +90,33 @@ public class Player {
     }
 
     public void addBotLaneCards(Card[] cardsToAdd) {
-        botLaneCards[0] = cardsToAdd[0];
-        botLaneCards[1] = cardsToAdd[1];
+        botLaneCards.add(cardsToAdd[0]);
+        botLaneCards.add(cardsToAdd[1]);
     }
 
     public void addMidLaneCard(Card cardToAdd) {
-        midLaneCards[0] = cardToAdd;
+        midLaneCards.add(cardToAdd);
     }
 
     public void addTopLaneCard(Card cardToAdd) {
-        topLaneCards[0] = cardToAdd;
+        midLaneCards.add(cardToAdd);
     }
 
     public Card[] discardOldBotLaneCards() {
         Card[] cardsToDiscard = new Card[2];
 
-        cardsToDiscard[0] = botLaneCards[2];
-        cardsToDiscard[1] = botLaneCards[3];
-
-        // move new cards into old card positions in the botLaneCars array
-        botLaneCards[2] = botLaneCards[0];
-        botLaneCards[3] = botLaneCards[1];
+        cardsToDiscard[0] = botLaneCards.remove();
+        cardsToDiscard[1] = botLaneCards.remove();
 
         return cardsToDiscard;
     }
 
     public Card discardOldMidLaneCard() {
-        Card cardToDiscard = midLaneCards[1];
-
-        midLaneCards[1] = midLaneCards[0];
-
-        return cardToDiscard;
+        return midLaneCards.remove();
     }
 
     public Card discardOldTopLaneCard() {
-        Card cardToDiscard = topLaneCards[1];
-
-        topLaneCards[1] = topLaneCards[0];
-
-        return cardToDiscard;
+        return  topLaneCards.remove();
     }
 
     public Card[] discardOldCards() {
