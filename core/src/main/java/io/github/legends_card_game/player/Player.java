@@ -51,6 +51,10 @@ public class Player {
         return getCards(midLaneCards);
     }
 
+    public ArrayList<Card> getJungleCards() {
+        return jungleCards;
+    }
+
     public int getLaneValue(Card[] cards) {
         int value = 0;
 
@@ -76,7 +80,59 @@ public class Player {
         return getLaneValue(topLaneCards);
     }
 
-    public String getJungleCards() {
-        return getCards(jungleCards);
+    public void addBotLaneCards(Card[] cardsToAdd) {
+        botLaneCards[0] = cardsToAdd[0];
+        botLaneCards[1] = cardsToAdd[1];
+    }
+
+    public void addMidLaneCard(Card cardToAdd) {
+        midLaneCards[0] = cardToAdd;
+    }
+
+    public void addTopLaneCard(Card cardToAdd) {
+        topLaneCards[0] = cardToAdd;
+    }
+
+    public Card[] discardOldBotLaneCards() {
+        Card[] cardsToDiscard = new Card[2];
+
+        cardsToDiscard[0] = botLaneCards[2];
+        cardsToDiscard[1] = botLaneCards[3];
+
+        // move new cards into old card positions in the botLaneCars array
+        botLaneCards[2] = botLaneCards[0];
+        botLaneCards[3] = botLaneCards[1];
+
+        return cardsToDiscard;
+    }
+
+    public Card discardOldMidLaneCard() {
+        Card cardToDiscard = midLaneCards[1];
+
+        midLaneCards[1] = midLaneCards[0];
+
+        return cardToDiscard;
+    }
+
+    public Card discardOldTopLaneCard() {
+        Card cardToDiscard = topLaneCards[1];
+
+        topLaneCards[1] = topLaneCards[0];
+
+        return cardToDiscard;
+    }
+
+    public Card[] discardOldCards() {
+        Card[] cardsToDiscard = new Card[4];
+
+        Card[] oldBotLaneCards = discardOldBotLaneCards();
+
+        cardsToDiscard[0] = oldBotLaneCards[0];
+        cardsToDiscard[1] = oldBotLaneCards[1];
+
+        cardsToDiscard[2] = discardOldMidLaneCard();
+        cardsToDiscard[3] = discardOldTopLaneCard();
+
+        return cardsToDiscard;
     }
 }

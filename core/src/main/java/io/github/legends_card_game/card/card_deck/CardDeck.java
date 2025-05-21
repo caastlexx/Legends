@@ -4,6 +4,7 @@ import io.github.legends_card_game.card.Card;
 import io.github.legends_card_game.card.suite.Suite;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardDeck {
     private final ArrayList<Card> deck;
@@ -60,5 +61,11 @@ public class CardDeck {
 
     public void discard(Card card) {
         discard.add(card);
+    }
+
+    public void discard(Card[] cards) {
+        for (Card card : cards) {
+            discard(card);
+        }
     }
 }
